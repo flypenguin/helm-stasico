@@ -1,0 +1,13 @@
+{{- if .Values.env }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "stasico.fullname" . }}-env
+  labels:
+    app.kubernetes.io/name: {{ include "stasico.name" . }}
+    helm.sh/chart: {{ include "stasico.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+{{ toYaml .Values.env | indent 2 }}
+{{- end }}

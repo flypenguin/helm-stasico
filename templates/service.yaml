@@ -1,0 +1,19 @@
+{{- $Outer := . }}
+{{- if .Values.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "stasico.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "stasico.name" . }}
+    helm.sh/chart: {{ include "stasico.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ default "ClusterIP" .Values.service.type }}
+  ports:
+{{ required "Please define .Values.service.ports[] when using a Service!" .Values.service.ports | toYaml | indent 4 }}
+  selector:
+    app.kubernetes.io/name: {{ include "stasico.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{ end }}

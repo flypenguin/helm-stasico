@@ -1,0 +1,147 @@
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: {{ include "stasico.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "stasico.name" . }}
+    helm.sh/chart: {{ include "stasico.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  # without shared storage, no more than 1 replica, also we can't start the next
+  # before killing the old due to the volume attachment. I think.
+  # anyway, safer this way.
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "stasico.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  serviceName: {{ include "stasico.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "stasico.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ required "Please define .Values.image.repository !" .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{- if or .Values.env .Values.secretEnv .Values.envFrom .Values.secretEnvFrom }}
+          envFrom:
+{{- if .Values.env }}
+            - configMapRef:
+                name: {{ include "stasico.fullname" . }}-env
+                optional: false
+{{- end }}
+{{- if .Values.envFrom }}
+{{- range $refName := .Values.envFrom }}
+            - configMapRef:
+                name: {{ $refName }}
+                optional: false
+{{- end }}
+{{- end }}
+{{- if .Values.secretEnv }}
+            - secretRef:
+                name: {{ include "stasico.fullname" . }}-env-secrets
+                optional: false
+{{- end }}
+{{- if .Values.secretEnvFrom }}
+{{- range $refName := .Values.secretEnvFrom }}
+            - secretRef:
+                name: {{ $refName }}
+                optional: false
+{{- end }}
+{{- end }}
+{{- end }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+{{- if .Values.livenessProbe }}
+          livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 12 }}
+{{- end }}
+{{- if .Values.readinessProbe }}
+          readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 12 }}
+{{- end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{- if .Values.persistence.mounts }}
+          volumeMounts:
+{{- range $volName, $volMount := .Values.persistence.mounts }}
+            - name: {{ $volName }}
+{{ toYaml $volMount | indent 14 }}
+{{- end }}
+{{- end }}
+{{- if or .Values.persistence.volumes .Values.persistence.existingClaims }}
+      volumes:
+{{- if .Values.persistence.volumesFromExistingClaims }}
+{{- range $volName, $value := .Values.persistence.volumesFromExistingClaims }}
+        - name: {{ $volName }}
+          persistentVolumeClaim:
+            claimName: {{ $value }}
+{{- end }}
+{{- end }}
+{{- if .Values.persistence.volumes }}
+{{- range $volName, $volume := .Values.persistence.volumes }}
+        - name: {{ $volName }}
+{{ toYaml $volume | indent 10 }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if and .Values.persistence.volumeClaimTemplates }}
+{{- $Outer := . }}
+  volumeClaimTemplates:
+{{- range $name, $vctmpl := .Values.persistence.volumeClaimTemplates }}
+    - metadata:
+        name: {{ $name }}
+        labels:
+          app.kubernetes.io/name: {{ include "stasico.name" $Outer }}
+          app.kubernetes.io/instance: {{ $Outer.Release.Name }}
+          {{- with $vctmpl.labels }}
+          {{- range $key, $value := . }}
+          "app.kubernetes.io/{{ include "stasico.name" $Outer }}/{{ $key }}": {{ $value | quote }}
+          {{- end}}
+          {{- end}}
+      spec:
+        accessModes:
+        {{- with $vctmpl.accessModes }}
+        {{- range $accessMode := .}}
+          - {{ . }}
+        {{- end }}
+        {{- else }}
+          - ReadWriteOnce
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ default "8 GiB" $vctmpl.size | quote }}
+        {{- if or $vctmpl.matchLabels $vctmpl.matchExpressions }}
+        selector:
+          {{- if $vctmpl.matchLabels }}
+          matchLabels:
+{{ toYaml $vctmpl.matchLabels | indent 12 }}
+          {{- end }}
+          {{- if $vctmpl.matchExpressions }}
+          matchExpressions:
+{{ toYaml $vctmpl.matchExpressions | indent 12 }}
+          {{- end }}
+        {{- end }}
+        storageClassName: {{ default "" .storageClass | quote }}
+{{- end }}
+{{- end }}
