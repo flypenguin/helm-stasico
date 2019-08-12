@@ -30,51 +30,66 @@ With this chart you can deploy a _stateful_, _single-container_ application by j
 
 ## TL;DR
 
-(this is just an example, the values are not correct for the actual XWiki container ... yet)
+This is a _working_ (!) Atlassian Confluence installation on K8S.
 
 ```yaml
 # values.yaml
+applicationName: confluence
 
-applicationName: "example-app"
-env:
-  DB_USER: xwiki
-  DB_HOST: postgres-0
+image:
+  repository: atlassian/confluence-server
+  tag: 6.6.4-alpine
 
-secretEnv:
-  DB_PASS: s00pasecr3t
+container:
+  ports:
+    http:
+      containerPort: 8090
+      protocol: TCP
+    synchrony:
+      containerPort: 8091
+      protocol: TCP
+  env:
+    CATALINA_CONNECTOR_PROXYNAME: confluence.mydomain.com
+    CATALINA_CONNECTOR_PROXYPORT: "443"
+    CATALINA_CONNECTOR_SCHEME: https
+    CATALINA_CONNECTOR_SECURE: "true"
+    JVM_MINIMUM_MEMORY: "1024m"
+    JVM_MAXIMUM_MEMORY: "1024m"
+    JVM_SUPPORT_RECOMMENDED_ARGS: -XX:MaxMetaspaceSize=512m -XX:MaxDirectMemorySize=10m -Dsynchrony.memory.max=0m
 
 persistence:
   mounts:
     data:
-      mountPath: /usr/local/xwiki
-  volumes:
+      mountPath: /var/atlassian/application-data/confluence
+  volumeClaimTemplates:
     data:
-      persistentVolumeClaim:
-        claimName: xwiki-main-data
-
-image:
-  repository: xwiki
+      size: 32Gi
+      storageClass: default
 
 service:
   enabled: true
   ports:
-    - port: 80
+    http:
+      port: 80
       targetPort: http
       protocol: TCP
-      name: http
+    synchrony:
+      port: 8091
+      targetPort: synchrony
+      protocol: TCP
 
 ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
   path: /
   hosts:
-    - xwiki.my-domain.com
+    - confluence.my-domain.com
   tls:
-    - secretName: tls-com-my-domain-xwiki
+    - secretName: tls-confluence-my-domain
       hosts:
-        - xwiki.my-domain.com
+        - confluence.my-domain.com
 ```
 
 ## Parameters
