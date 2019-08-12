@@ -83,6 +83,7 @@ ingress:
 | --------------------------------------- | ---------------------------------------------------- | ---------------- |
 | `affinity`                              | Define a Pod [`affinity`](https://is.gd/AtiuUg)      |  `{}`            |
 | `application.name`                      | Define the name of the deployed app                  |  unset, required |
+| `container.ports`                       | Configure the container's ports (see also below)     | `{}`             |
 | `image.pullPolicy`                      | container image [`pullPolicy`](https://is.gd/5tfCPv) | `Always`         |
 | `image.repository`                      | container image repository                           | unset, required  |
 | `image.tag`                             | container image tag                                  | `latest`         |
@@ -116,14 +117,18 @@ persistence:
       mountPath: /usr/local/stasico
       # ... and so on
 
-# WILL BECOME THIS IN THE StatefulSet DEFINITION:
+# WILL BECOME THIS IN THE StatefulSet OBJECT:
 
 # statefulset.yaml
-# [...]
-            volumeMounts:
-                - name: DATA_IS_THE_NAME
-                mountPath: /usr/local/stasico
-                # ... and so on
+spec:
+  template:
+    spec:
+      containers:
+        - name: my-container
+          volumeMounts:
+            - name: DATA_IS_THE_NAME
+              mountPath: /usr/local/stasico
+              # ... and so on
 ```
 
 ## Persistence volumes
@@ -139,7 +144,9 @@ persistence:
         claimName: schmoo-claim
 
 # statefulset.yaml
-_
+spec:
+  template:
+    spec:
       volumes:
         - name: DATA_IS_THE_NAME
           persistentVolumeClaim:
@@ -175,6 +182,7 @@ persistence:
       size: 32GiB
 
 # statefulset.yaml -> RESULT
+spec:
   volumeClaimTemplates:
     - metadata:
         name: data
@@ -203,6 +211,7 @@ persistence:
         match: me
 
 # statefulset.yaml -> RESULT
+spec:
   volumeClaimTemplates:
     - metadata:
         name: data2
@@ -236,6 +245,7 @@ persistence:
       storageClass: myStorageClass
 
 # statefulset.yaml -> RESULT
+spec:
   volumeClaimTemplates:
     - metadata:
         name: data3
@@ -255,4 +265,28 @@ persistence:
             i am very: expressive
 
         storageClassName: "myStorageClass"```
+````
+
+## Container ports
+
+The ports of a container are configured through `container.ports`, which follows the same `name_key -> object` principle as the previous examples.
+
+````yaml
+# values.yaml
+container:
+  ports:
+    http:
+      containerPort: 8080
+      protocol: TCP
+
+# statefulset.yaml:
+spec:
+  template:
+    spec:
+      containers:
+        - name: my-container
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP```
 ````
