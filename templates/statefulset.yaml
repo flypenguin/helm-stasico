@@ -56,10 +56,13 @@ spec:
 {{- end }}
 {{- end }}
 {{- end }}
+{{- if (and .Values.container .Values.container.ports) }}
           ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
+{{- range $name, $portInfo := .Values.container.ports }}
+            - name: {{ $name }}
+{{ toYaml $portInfo | indent 14 }}
+{{- end }}
+{{- end }}
 {{- if .Values.livenessProbe }}
           livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}

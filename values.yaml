@@ -5,6 +5,9 @@ envFrom: []
 secretEnv: {}
 secretEnvFrom: []
 
+container:
+  ports: {}
+
 persistence:
   mounts: {}
   volumes: {}

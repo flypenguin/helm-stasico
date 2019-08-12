@@ -12,6 +12,12 @@ secretEnv:
 secretEnvFrom:
   - secEnvFrom
 
+container:
+  ports:
+    http:
+      containerPort: 8080
+      protocol: TCP
+
 persistence:
   mounts:
     data:
