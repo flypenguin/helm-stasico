@@ -1,4 +1,4 @@
-{{- if .Values.env }}
+{{- if .Values.container.env }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,5 +9,5 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
-{{ toYaml .Values.env | indent 2 }}
+{{ toYaml .Values.container.env | indent 2 }}
 {{- end }}

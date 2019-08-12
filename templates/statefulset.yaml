@@ -29,27 +29,27 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ required "Please define .Values.image.repository !" .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-{{- if or .Values.env .Values.secretEnv .Values.envFrom .Values.secretEnvFrom }}
+{{- if or .Values.container.env .Values.container.secretEnv .Values.container.envFrom .Values.container.secretEnvFrom }}
           envFrom:
-{{- if .Values.env }}
+{{- if .Values.container.env }}
             - configMapRef:
                 name: {{ include "stasico.fullname" . }}-env
                 optional: false
 {{- end }}
-{{- if .Values.envFrom }}
-{{- range $refName := .Values.envFrom }}
+{{- if .Values.container.envFrom }}
+{{- range $refName := .Values.container.envFrom }}
             - configMapRef:
                 name: {{ $refName }}
                 optional: false
 {{- end }}
 {{- end }}
-{{- if .Values.secretEnv }}
+{{- if .Values.container.secretEnv }}
             - secretRef:
                 name: {{ include "stasico.fullname" . }}-env-secrets
                 optional: false
 {{- end }}
-{{- if .Values.secretEnvFrom }}
-{{- range $refName := .Values.secretEnvFrom }}
+{{- if .Values.container.secretEnvFrom }}
+{{- range $refName := .Values.container.secretEnvFrom }}
             - secretRef:
                 name: {{ $refName }}
                 optional: false

@@ -1,22 +1,18 @@
 applicationName: "app-baby"
 
-env:
-  One: TWOOO
-
-envFrom:
-  - envFrom
-
-secretEnv:
-  THREE: four
-
-secretEnvFrom:
-  - secEnvFrom
-
 container:
   ports:
     http:
       containerPort: 8080
       protocol: TCP
+  env:
+    One: TWOOO
+  envFrom:
+    - envFrom
+  secretEnv:
+    THREE: four
+  secretEnvFrom:
+    - secEnvFrom
 
 persistence:
   mounts:
