@@ -92,7 +92,7 @@ spec:
 {{ toYaml $volMount | indent 14 }}
 {{- end }}
 {{- end }}
-{{- if or .Values.persistence.volumes .Values.persistence.existingClaims }}
+{{- if or .Values.persistence.volumes .Values.persistence.volumesFromExistingClaims }}
       volumes:
 {{- if .Values.persistence.volumesFromExistingClaims }}
 {{- range $volName, $value := .Values.persistence.volumesFromExistingClaims }}
