@@ -179,7 +179,7 @@ In case you want to have dynamic provisioning you can use the volumeClaimTemplat
 persistence:
   volumeClaimTemplates:
     data:
-      size: 32GiB
+      size: 32Gi
 
 # statefulset.yaml -> RESULT
 spec:
@@ -194,7 +194,7 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: "32GiB"
+            storage: "32Gi"
         storageClassName: ""
 ```
 
@@ -223,7 +223,7 @@ spec:
           - ReadWriteMany
         resources:
           requests:
-            storage: "8 GiB"
+            storage: "8Gi"
         selector:
           matchLabels:
             match: me
@@ -259,7 +259,7 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: "8 GiB"
+            storage: "8Gi"
         selector:
           matchExpressions:
             i am very: expressive

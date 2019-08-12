@@ -133,7 +133,7 @@ spec:
         {{- end }}
         resources:
           requests:
-            storage: {{ default "8 GiB" $vctmpl.size | quote }}
+            storage: {{ default "8Gi" $vctmpl.size | quote }}
         {{- if or $vctmpl.matchLabels $vctmpl.matchExpressions }}
         selector:
           {{- if $vctmpl.matchLabels }}

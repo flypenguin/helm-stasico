@@ -26,7 +26,7 @@ persistence:
     data2: MyExistingDataClaimName
   volumeClaimTemplates:
     data:
-      size: 32GiB
+      size: 32Gi
     data2:
       accessModes:
         - ReadWriteMany
