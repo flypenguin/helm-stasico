@@ -1,0 +1,72 @@
+applicationName: "app-baby"
+
+env:
+  One: TWOOO
+
+envFrom:
+  - envFrom
+
+secretEnv:
+  THREE: four
+
+secretEnvFrom:
+  - secEnvFrom
+
+persistence:
+  mounts:
+    data:
+      mountPath: /usr/local/stasico
+  volumes:
+    data:
+      persistentVolumeClaim:
+        claimName: schmoo-claim
+  volumesFromExistingClaims:
+    data2: MyExistingDataClaimName
+  volumeClaimTemplates:
+    data:
+      size: 32GiB
+    data2:
+      accessModes:
+        - ReadWriteMany
+      matchLabels:
+        match: me
+    data3:
+      labels:
+        purpose: data
+        type: cache
+      matchExpressions:
+        "i am very": expressive
+      storageClass: myStorageClass
+
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: Always
+
+service:
+  enabled: true
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - chart-example.local
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # example:
+  # limits {cpu: 100m, memory: 128Mi, requests: {cpu: 100m, memory: 128Mi}}
+nodeSelector: {}
+tolerations: []
+affinity: {}
