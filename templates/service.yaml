@@ -12,7 +12,10 @@ metadata:
 spec:
   type: {{ default "ClusterIP" .Values.service.type }}
   ports:
-{{ required "Please define .Values.service.ports[] when using a Service!" .Values.service.ports | toYaml | indent 4 }}
+{{- range $portName, $portInfo := (required "Please define .Values.service.ports[] when using a Service!" .Values.service.ports) }}
+    - name: {{ $portName }}
+{{ toYaml $portInfo | indent 6 }}
+{{- end }}
   selector:
     app.kubernetes.io/name: {{ include "stasico.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
