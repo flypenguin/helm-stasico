@@ -114,6 +114,12 @@ spec:
 {{- range $name, $vctmpl := .Values.persistence.volumeClaimTemplates }}
     - metadata:
         name: {{ $name }}
+        {{- with $vctmpl.annotations }}
+        annotations:
+          {{- range $key, $value := . }}
+          {{ $key }}: {{ $value }}
+          {{- end }}
+        {{- end }}
         labels:
           app.kubernetes.io/name: {{ include "stasico.name" $Outer }}
           app.kubernetes.io/instance: {{ $Outer.Release.Name }}

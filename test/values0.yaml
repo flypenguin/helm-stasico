@@ -36,6 +36,8 @@ persistence:
       labels:
         purpose: data
         type: cache
+      annotations:
+        annotate: me
       matchExpressions:
         "i am very": expressive
       storageClass: myStorageClass
