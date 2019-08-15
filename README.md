@@ -2,21 +2,21 @@
 
 This is the thinking here:
 
-- A lot of very useful applications consist of only one container.
-- Most of them are stateful.
-- Most need the same parameters (DB_USER, DB_HOST, etc).
-- Most need only one volume attached.
-- Writing a Helm chart for _each_ of them is a lot of work, a lot of duplication, and just plainly annoying.
+- A lot of very useful applications consist of only one container. Most of them are stateful.
+- Most need a couple of env variables, so this should be simple.
+- Most need only one volume attached, so this should be simple.
+- Writing a Helm chart for _each_ of them is a lot of work, a lot of duplication, and a LOT of duplicate code.
 
-Enter StaSiCo.
+**Enter StaSiCo.**
 
-With this chart you can deploy a _stateful_, _single-container_ application by just setting a few values in `values.yaml`.
+With this chart you can deploy a _stateful_, _single-container_ application by just setting a few values in `values.yaml`. It's 15% more complex than a hand-tailored helm chart, but a _lot_ less redundant than writing the same helm boilerplate for each custom chart, and _way_ easier to handle (only one chart to test, not many).
 
 ## Features
 
 - Can manage multiple volume mounts
 - Can manage multiple ports
 - Can manage multiple mounts from _one_ volume into several directories
+- Simplified mount point management, simplified volume management from existing claims
 - And probably more ...
 
 ## Requirements
@@ -58,9 +58,8 @@ container:
     JVM_SUPPORT_RECOMMENDED_ARGS: -XX:MaxMetaspaceSize=512m -XX:MaxDirectMemorySize=10m -Dsynchrony.memory.max=0m
 
 persistence:
-  mounts:
-    data:
-      mountPath: /var/atlassian/application-data/confluence
+  simpleMounts:
+    data: /var/atlassian/application-data/confluence
   volumeClaimTemplates:
     data:
       size: 32Gi
@@ -110,6 +109,7 @@ ingress:
 | `livenessProbe`                         | Define a [liveness probe](https://is.gd/z0lJO3)      | unset            |
 | `nodeSelector`                          | Define a Pod [`nodeSelector`](https://is.gd/AtiuUg)  | `{}`             |
 | `persistence.mounts`                    | see below                                            | unset            |
+| `persistence.simpleMount                | simplified key->value mount definitions, see below   | unset            |
 | `persistence.volumes`                   | see below                                            | unset            |
 | `persistence.volumesFromExistingClaims` | see below                                            | unset            |
 | `persistence.volumeClaimTemplates`      | see below                                            | unset            |
