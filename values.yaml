@@ -9,7 +9,8 @@ container:
   ports: {}
 
 persistence:
-  mounts: {}
+  mounts: []
+  simpleMounts: {}
   volumes: {}
   volumesFromexistingClaims: {}
   volumeClaimTemplates: {}

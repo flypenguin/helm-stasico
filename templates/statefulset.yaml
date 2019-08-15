@@ -84,13 +84,18 @@ spec:
 {{- with .Values.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
-    {{- end }}
-{{- if .Values.persistence.mounts }}
-          volumeMounts:
-{{- range $volName, $volMount := .Values.persistence.mounts }}
-            - name: {{ $volName }}
-{{ toYaml $volMount | indent 14 }}
 {{- end }}
+{{- if or .Values.persistence.mounts .Values.persistence.simpleMounts }}
+          volumeMounts:
+            {{- if .Values.persistence.mounts }}
+{{ toYaml .Values.persistence.mounts | indent 12 }}
+            {{- end }}
+            {{- if .Values.persistence.simpleMounts }}
+            {{- range $name, $path := .Values.persistence.simpleMounts }}
+            - name: {{ $name }}
+              mountPath: {{ $path }}
+            {{- end }}
+            {{- end }}
 {{- end }}
 {{- if or .Values.persistence.volumes .Values.persistence.volumesFromExistingClaims }}
       volumes:

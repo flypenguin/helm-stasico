@@ -15,9 +15,12 @@ container:
     - secEnvFrom
 
 persistence:
+  simpleMounts:
+    simpleMount: /my/simple/mount
   mounts:
-    data:
-      mountPath: /usr/local/stasico
+    - name: normalMount
+      mountPath: /my/normal/mount
+      subPath: subbiesub
   volumes:
     data:
       persistentVolumeClaim:

@@ -127,10 +127,14 @@ The `persistence.mounts` map is directly translated into the `volumeMounts` sect
 ```yaml
 # values.yaml
 persistence:
+  simpleMounts:
+    # as many as you like
+    MY_SIMPLE_MOUNT: /usr/local/stasico
   mounts:
-    DATA_IS_THE_NAME:
-      mountPath: /usr/local/stasico
-      # ... and so on
+    # as many as you like, will be used exactly as is
+    - name: MY_MOUNT
+      mountPath: /my/mount/path
+      subPath: IAmASubPath
 
 # WILL BECOME THIS IN THE StatefulSet OBJECT:
 
@@ -140,10 +144,13 @@ spec:
     spec:
       containers:
         - name: my-container
+          # this will be generated
           volumeMounts:
-            - name: DATA_IS_THE_NAME
+            - name: MY_SIMPLE_MOUNT
               mountPath: /usr/local/stasico
-              # ... and so on
+            - name: MY_MOUNT
+              mountPath: /my/mount/path
+              subPath: IAmASubPath
 ```
 
 ## Persistence volumes
