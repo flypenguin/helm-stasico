@@ -12,9 +12,9 @@ _patch:
 
 _chart:
 	helm lint
-	helm package -d ../repo . 
+	helm package -d ../docs .
 	source .chart-settings.sh \
-	&& helm repo index --url $$REPO_URL ../repo
+	&& helm repo index --url $$REPO_URL ../docs
 
 minor: _minor _chart
 
