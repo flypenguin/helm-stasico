@@ -3,9 +3,9 @@ entries:
   stasico:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2019-08-23T23:33:28.044589+02:00"
+    created: "2019-08-26T20:41:12.499039+02:00"
     description: Convenience wrapper for (stateful) single containers
-    digest: a9177f6d5b82c5df4dfb8898cf408480778b35d278479c28e7d38d5eb26009bd
+    digest: 1370e1f1e62d29b72fe8424f289290d7594a6fc81235c9efad2e3fb297724e39
     home: https://www.flypenguin.de/
     keywords:
     - generic
@@ -19,6 +19,6 @@ entries:
       url: https://flypenguin.de
     name: stasico
     urls:
-    - https://github.com/shalala/stasico-1.0.1.tgz
+    - https://flypenguin.github.io/helm-stasico/stasico-1.0.1.tgz
     version: 1.0.1
-generated: "2019-08-23T23:33:28.042146+02:00"
+generated: "2019-08-26T20:41:12.498326+02:00"
