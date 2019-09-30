@@ -30,7 +30,10 @@ With this chart you can deploy a _stateful_, _single-container_ application by j
 
 ## TL;DR
 
-This is a _working_ (!) Atlassian Confluence installation on K8S.
+- Add stasico repo to helm: `helm repo add stasico https://flypenguin.github.io/helm-stasico/`
+- Install a single container app to a cluster: `helm install stasico/stasico -n my-app -f my-values.yaml`
+
+That's it. If you need inspiration - this is a _working_ (!) Atlassian Confluence installation on K8S.
 
 ```yaml
 # values.yaml
