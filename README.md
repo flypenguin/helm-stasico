@@ -96,32 +96,32 @@ ingress:
 
 ## Parameters
 
-| Parameter                                                                             | Description                                          | Default          |
-| ------------------------------------------------------------------------------------- | ---------------------------------------------------- | ---------------- |
-| `affinity`                                                                            | Define a Pod [`affinity`](https://is.gd/AtiuUg)      |  `{}`            |
-| `application.name`                                                                    | Define the name of the deployed app                  |  unset, required |
-| `container.ports`                                                                     | Configure the container's ports (see also below)     | `{}`             |
-| `image.pullPolicy`                                                                    | container image [`pullPolicy`](https://is.gd/5tfCPv) | `Always`         |
-| `image.repository`                                                                    | container image repository                           | unset, required  |
-| `image.tag`                                                                           | container image tag                                  | `latest`         |
-| `ingress.enabled`                                                                     | Enable ingress                                       | `false`          |
-| `ingress.annotations`                                                                 | Define ingress annotations                           | `{}`             |
-| `ingress.hosts`                                                                       | Define ingress hosts                                 | unset            |
-| `ingress.path`                                                                        | Set ingress path                                     | `/`              |
-| `ingress.tls`                                                                         | Define ingress [TLS fields](https://is.gd/SkhKxV)    | `[]`             |
-| `livenessProbe`                                                                       | Define a [liveness probe](https://is.gd/z0lJO3)      | unset            |
-| `nodeSelector`                                                                        | Define a Pod [`nodeSelector`](https://is.gd/AtiuUg)  | `{}`             |
-| `persistence.mounts`                                                                  | see below                                            | unset            |
-| `persistence.simpleMount | simplified key->value mount definitions, see below | unset |
-| `persistence.volumes`                                                                 | see below                                            | unset            |
-| `persistence.volumesFromExistingClaims`                                               | see below                                            | unset            |
-| `persistence.volumeClaimTemplates`                                                    | see below                                            | unset            |
-| `readinessProbe`                                                                      | Define a [readiness probe](https://is.gd/z0lJO3)     | unset            |
-| `resources`                                                                           | Define Pod [`resources`](https://is.gd/pZtMlt)       | `{}`             |
-| `service.enabled`                                                                     | Whether to create a service                          | `false`          |
-| `service.ports`                                                                       | Define the Service's [type](https://is.gd/XvsUf0)    | unset            |
-| `service.type`                                                                        | The Service type                                     | `ClusterIP`      |
-| `tolerations`                                                                         | Define Pod [`tolerations`](https://is.gd/XaLbxF)     | `[]`             |
+| Parameter                               | Description                                          | Default          |
+| --------------------------------------- | ---------------------------------------------------- | ---------------- |
+| `affinity`                              | Define a Pod [`affinity`](https://is.gd/AtiuUg)      |  `{}`            |
+| `application.name`                      | Define the name of the deployed app                  |  unset, required |
+| `container.ports`                       | Configure the container's ports (see also below)     | `{}`             |
+| `image.pullPolicy`                      | container image [`pullPolicy`](https://is.gd/5tfCPv) | `Always`         |
+| `image.repository`                      | container image repository                           | unset, required  |
+| `image.tag`                             | container image tag                                  | `latest`         |
+| `ingress.enabled`                       | Enable ingress                                       | `false`          |
+| `ingress.annotations`                   | Define ingress annotations                           | `{}`             |
+| `ingress.hosts`                         | Define ingress hosts                                 | unset            |
+| `ingress.path`                          | Set ingress path                                     | `/`              |
+| `ingress.tls`                           | Define ingress [TLS fields](https://is.gd/SkhKxV)    | `[]`             |
+| `livenessProbe`                         | Define a [liveness probe](https://is.gd/z0lJO3)      | unset            |
+| `nodeSelector`                          | Define a Pod [`nodeSelector`](https://is.gd/AtiuUg)  | `{}`             |
+| `persistence.mounts`                    | see below                                            | unset            |
+| `persistence.simpleMount`               | simplified key->value mount definitions, see below   | unset            |
+| `persistence.volumes`                   | see below                                            | unset            |
+| `persistence.volumesFromExistingClaims` | see below                                            | unset            |
+| `persistence.volumeClaimTemplates`      | see below                                            | unset            |
+| `readinessProbe`                        | Define a [readiness probe](https://is.gd/z0lJO3)     | unset            |
+| `resources`                             | Define Pod [`resources`](https://is.gd/pZtMlt)       | `{}`             |
+| `service.enabled`                       | Whether to create a service                          | `false`          |
+| `service.ports`                         | Define the Service's [type](https://is.gd/XvsUf0)    | unset            |
+| `service.type`                          | The Service type                                     | `ClusterIP`      |
+| `tolerations`                           | Define Pod [`tolerations`](https://is.gd/XaLbxF)     | `[]`             |
 
 ## Persistence mounts
 
@@ -141,7 +141,7 @@ persistence:
 
 # WILL BECOME THIS IN THE StatefulSet OBJECT:
 
-# statefulset.yaml
+# statefulset.yaml -> RESULT
 spec:
   template:
     spec:
@@ -168,7 +168,7 @@ persistence:
       persistentVolumeClaim:
         claimName: schmoo-claim
 
-# statefulset.yaml
+# statefulset.yaml -> RESULT
 spec:
   template:
     spec:
@@ -188,7 +188,7 @@ persistence:
   volumesFromExistingClaims:
     DATA_IS_THE_NAME: schmoo-claim
 
-# statefulset.yaml
+# statefulset.yaml -> RESULT
 _
 # SAME RESULT AS LAST EXAMPLE
 ```
@@ -304,7 +304,7 @@ container:
       containerPort: 8080
       protocol: TCP
 
-# statefulset.yaml:
+# statefulset.yaml -> RESULT
 spec:
   template:
     spec:
