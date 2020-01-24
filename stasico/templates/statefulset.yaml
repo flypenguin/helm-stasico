@@ -156,6 +156,6 @@ spec:
 {{ toYaml $vctmpl.matchExpressions | indent 12 }}
           {{- end }}
         {{- end }}
-        storageClassName: {{ default "" .storageClass | quote }}
+        storageClassName: {{ default "" $vctmpl.storageClassName | quote }}
 {{- end }}
 {{- end }}

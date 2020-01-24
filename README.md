@@ -66,7 +66,7 @@ persistence:
   volumeClaimTemplates:
     data:
       size: 32Gi
-      storageClass: default
+      storageClassName: default
 
 service:
   enabled: true
@@ -256,7 +256,7 @@ spec:
         storageClassName: ""
 ```
 
-### Using labels, storageClass and some matchExpressions
+### Using labels, storageClassName and some matchExpressions
 
 ````yaml
 persistence:
@@ -267,7 +267,7 @@ persistence:
         type: cache
       matchExpressions:
         "i am very": expressive
-      storageClass: myStorageClass
+      storageClassName: myStorageClass
 
 # statefulset.yaml -> RESULT
 spec:
