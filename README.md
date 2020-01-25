@@ -1,15 +1,20 @@
 # Helm StaSiCo chart
 
-This is the thinking here:
+## TL;DR
 
-- A lot of very useful applications consist of only one container. Most of them are stateful.
-- Most need a couple of env variables, so this should be simple.
-- Most need only one volume attached, so this should be simple.
-- Writing a Helm chart for _each_ of them is a lot of work, a lot of duplication, and a LOT of duplicate code.
+Do you want to ...
 
-**Enter StaSiCo.**
+- ... quickly deploy a _single container app_ on k8s?
+- ... which needs a _volume attached_ for some stateful data?
+- ... and throw in some _environment variables_, resource requirements, etc.?
+- ... and preferably an _ingress_ so it is picked up by your _nginx-ingress_ and _cert-manager_?
 
-With this chart you can deploy a _stateful_, _single-container_ application by just setting a few values in `values.yaml`. It's 15% more complex than a hand-tailored helm chart, but a _lot_ less redundant than writing the same helm boilerplate for each custom chart, and _way_ easier to handle (only one chart to test, not many).
+Here's the chart for you, which reduces the boilerplace to a minimum. Just do this:
+
+- Add stasico repo to helm: `helm repo add stasico https://flypenguin.github.io/helm-stasico/`
+- Install a single container app to a cluster: `helm install stasico/stasico -n my-app -f my-values.yaml`
+
+If you need examples, there's a [whole directory of them](examples/).
 
 ## Features
 
@@ -28,12 +33,38 @@ With this chart you can deploy a _stateful_, _single-container_ application by j
 - Multi-container applications are not supported (stateful _single_ container app, eh? :)
 - There is no database included, you have to take care of that yourself
 
-## TL;DR
+## Parameters
 
-- Add stasico repo to helm: `helm repo add stasico https://flypenguin.github.io/helm-stasico/`
-- Install a single container app to a cluster: `helm install stasico/stasico -n my-app -f my-values.yaml`
+| Parameter                               | Description                                          | Default          |
+| --------------------------------------- | ---------------------------------------------------- | ---------------- |
+| `affinity`                              | Define a Pod [`affinity`](https://is.gd/AtiuUg)      |  `{}`            |
+| `application.name`                      | Define the name of the deployed app                  |  unset, required |
+| `container.ports`                       | Configure the container's ports (see also below)     | `{}`             |
+| `image.pullPolicy`                      | container image [`pullPolicy`](https://is.gd/5tfCPv) | `Always`         |
+| `image.repository`                      | container image repository                           | unset, required  |
+| `image.tag`                             | container image tag                                  | `latest`         |
+| `ingress.enabled`                       | Enable ingress                                       | `false`          |
+| `ingress.annotations`                   | Define ingress annotations                           | `{}`             |
+| `ingress.hosts`                         | Define ingress hosts                                 | unset            |
+| `ingress.path`                          | Set ingress path                                     | `/`              |
+| `ingress.tls`                           | Define ingress [TLS fields](https://is.gd/SkhKxV)    | `[]`             |
+| `livenessProbe`                         | Define a [liveness probe](https://is.gd/z0lJO3)      | unset            |
+| `nodeSelector`                          | Define a Pod [`nodeSelector`](https://is.gd/AtiuUg)  | `{}`             |
+| `persistence.mounts`                    | see below                                            | unset            |
+| `persistence.simpleMount`               | simplified key->value mount definitions, see below   | unset            |
+| `persistence.volumes`                   | see below                                            | unset            |
+| `persistence.volumesFromExistingClaims` | see below                                            | unset            |
+| `persistence.volumeClaimTemplates`      | see below                                            | unset            |
+| `readinessProbe`                        | Define a [readiness probe](https://is.gd/z0lJO3)     | unset            |
+| `resources`                             | Define Pod [`resources`](https://is.gd/pZtMlt)       | `{}`             |
+| `service.enabled`                       | Whether to create a service                          | `false`          |
+| `service.ports`                         | Define the Service's [type](https://is.gd/XvsUf0)    | unset            |
+| `service.type`                          | The Service type                                     | `ClusterIP`      |
+| `tolerations`                           | Define Pod [`tolerations`](https://is.gd/XaLbxF)     | `[]`             |
 
-That's it. If you need inspiration - this is a _working_ (!) Atlassian Confluence installation on K8S.
+# Examples
+
+Again - a [whole directory of examples is in this repo](examples/), and below is a _working_ (!) Atlassian Confluence installation on K8S.
 
 ```yaml
 # values.yaml
@@ -93,35 +124,6 @@ ingress:
       hosts:
         - confluence.my-domain.com
 ```
-
-## Parameters
-
-| Parameter                               | Description                                          | Default          |
-| --------------------------------------- | ---------------------------------------------------- | ---------------- |
-| `affinity`                              | Define a Pod [`affinity`](https://is.gd/AtiuUg)      |  `{}`            |
-| `application.name`                      | Define the name of the deployed app                  |  unset, required |
-| `container.ports`                       | Configure the container's ports (see also below)     | `{}`             |
-| `image.pullPolicy`                      | container image [`pullPolicy`](https://is.gd/5tfCPv) | `Always`         |
-| `image.repository`                      | container image repository                           | unset, required  |
-| `image.tag`                             | container image tag                                  | `latest`         |
-| `ingress.enabled`                       | Enable ingress                                       | `false`          |
-| `ingress.annotations`                   | Define ingress annotations                           | `{}`             |
-| `ingress.hosts`                         | Define ingress hosts                                 | unset            |
-| `ingress.path`                          | Set ingress path                                     | `/`              |
-| `ingress.tls`                           | Define ingress [TLS fields](https://is.gd/SkhKxV)    | `[]`             |
-| `livenessProbe`                         | Define a [liveness probe](https://is.gd/z0lJO3)      | unset            |
-| `nodeSelector`                          | Define a Pod [`nodeSelector`](https://is.gd/AtiuUg)  | `{}`             |
-| `persistence.mounts`                    | see below                                            | unset            |
-| `persistence.simpleMount`               | simplified key->value mount definitions, see below   | unset            |
-| `persistence.volumes`                   | see below                                            | unset            |
-| `persistence.volumesFromExistingClaims` | see below                                            | unset            |
-| `persistence.volumeClaimTemplates`      | see below                                            | unset            |
-| `readinessProbe`                        | Define a [readiness probe](https://is.gd/z0lJO3)     | unset            |
-| `resources`                             | Define Pod [`resources`](https://is.gd/pZtMlt)       | `{}`             |
-| `service.enabled`                       | Whether to create a service                          | `false`          |
-| `service.ports`                         | Define the Service's [type](https://is.gd/XvsUf0)    | unset            |
-| `service.type`                          | The Service type                                     | `ClusterIP`      |
-| `tolerations`                           | Define Pod [`tolerations`](https://is.gd/XaLbxF)     | `[]`             |
 
 ## Persistence mounts
 

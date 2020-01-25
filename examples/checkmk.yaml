@@ -1,0 +1,44 @@
+# deployed with chart version: v2.0.0
+
+applicationName: checkmk
+
+image:
+  repository: flypenguin/check-mk-fixed
+  tag: 1.6.0p8
+
+container:
+  ports:
+    http:
+      containerPort: 5000
+      protocol: TCP
+
+persistence:
+  simpleMounts:
+    data: /omd/sites
+  volumeClaimTemplates:
+    data:
+      size: "32Gi"
+      storageClassName: managed-premium
+
+service:
+  enabled: true
+  ports:
+    http:
+      port: 80
+      targetPort: http
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+  path: /
+  hosts:
+    - "cmk.my.domain"
+  tls:
+    # using a wildcard let's encrypt certificate this time :)
+    - secretName: tls-star-my-domain
+      hosts:
+        - "*.my.domain"
