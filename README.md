@@ -62,7 +62,7 @@ If you need examples, there's a [whole directory of them](examples/).
 | `service.type`                          | The Service type                                     | `ClusterIP`      |
 | `tolerations`                           | Define Pod [`tolerations`](https://is.gd/XaLbxF)     | `[]`             |
 
-# Examples
+## Examples
 
 Again - a [whole directory of examples is in this repo](examples/), and below is a _working_ (!) Atlassian Confluence installation on K8S.
 
@@ -125,7 +125,7 @@ ingress:
         - confluence.my-domain.com
 ```
 
-## Persistence mounts
+### Persistence mounts
 
 The `persistence.mounts` map is directly translated into the `volumeMounts` section of the stateful container.
 
@@ -158,7 +158,7 @@ spec:
               subPath: IAmASubPath
 ```
 
-## Persistence volumes
+### Persistence volumes
 
 The `persistence.volumes` follow the same principle as `persistence.mounts`, just like that:
 
@@ -195,11 +195,11 @@ _
 # SAME RESULT AS LAST EXAMPLE
 ```
 
-## Persistence volumeClaimTemplates
+### Persistence volumeClaimTemplates
 
 In case you want to have dynamic provisioning you can use the volumeClaimTemplates map to create several of those. Some examples to show you the general idea of it. You can mix and match the examples, and you can define more than one volumeClaimTemplate in your `values.yaml`.
 
-### Simple volume, just use a size
+#### Simple volume, just use a size
 
 ```yaml
 # values.yaml
@@ -225,7 +225,7 @@ spec:
         storageClassName: ""
 ```
 
-### Use `accessModes` and some `matchLabels`
+#### Use `accessModes` and some `matchLabels`
 
 ```yaml
 # values.yaml
@@ -258,7 +258,7 @@ spec:
         storageClassName: ""
 ```
 
-### Using labels, storageClassName and some matchExpressions
+#### Using labels, storageClassName and some matchExpressions
 
 ````yaml
 persistence:
@@ -294,7 +294,7 @@ spec:
         storageClassName: "myStorageClass"```
 ````
 
-## Container ports
+### Container ports
 
 The ports of a container are configured through `container.ports`, which follows the same `name_key -> object` principle as the previous examples.
 
