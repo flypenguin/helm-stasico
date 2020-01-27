@@ -1,8 +1,11 @@
 SHELL := $(shell which bash)
 .SHELLFLAGS := -eo pipefail -c
 
+REPO_URL := https://flypenguin.github.io/helm-stasico/
+
+
 _lint:
-	helm lint
+	helm lint stasico
 
 _minor: _lint
 	bumpversion minor
@@ -14,9 +17,8 @@ _patch: _lint
 	bumpversion patch
 
 _chart:
-	helm package -d ../docs .
-	source .chart-settings.sh \
-	&& helm repo index --url $$REPO_URL ../docs
+	helm package -d ./docs stasico
+	echo helm repo index --url ${REPO_URL} ./docs
 
 minor: _minor _chart
 
