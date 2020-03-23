@@ -1,5 +1,6 @@
 # v2.1.0
 
+- [ADD] enable non-stateful deployments (use 'persistence.enabled: false')
 - [FIX] fix base64 encoding for secrets
 
 # v2.0.1

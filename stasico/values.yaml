@@ -10,7 +10,12 @@ container:
   secretEnv: {}
   secretEnvFrom: []
 
+# only for persistence.enabled: false
+deployment:
+  replicas: 1
+
 persistence:
+  enabled: true
   mounts: []
   simpleMounts: {}
   volumes: {}
