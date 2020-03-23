@@ -1,3 +1,7 @@
+# v2.1.0
+
+- [FIX] fix base64 encoding for secrets
+
 # v2.0.1
 
 - add `container.name` setting for compatibility (set to `stasico` if you have a pre-2.0 chart version)

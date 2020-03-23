@@ -1,12 +1,14 @@
 applicationName: ""
 
-env: {}
-envFrom: []
-secretEnv: {}
-secretEnvFrom: []
-
 container:
   ports: {}
+  # http:
+  #   containerPort: 8080
+  #   protocol: TCP
+  env: {}
+  envFrom: []
+  secretEnv: {}
+  secretEnvFrom: []
 
 persistence:
   mounts: []
@@ -16,11 +18,18 @@ persistence:
   volumeClaimTemplates: {}
 
 image:
+  # repository: (REQUIRED)
   tag: latest
   pullPolicy: Always
 
 service:
   enabled: false
+  ## if enabled == true this is REQUIRED:
+  # ports:
+  #   http:       # as many as you like
+  #     port: 80
+  #     targetPort: http
+  #     protocol: TCP
 
 ingress:
   enabled: false
