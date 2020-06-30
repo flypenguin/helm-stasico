@@ -3,7 +3,27 @@ entries:
   stasico:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2020-03-23T16:17:20.248132+01:00"
+    created: "2020-06-30T22:25:51.704354+02:00"
+    description: Convenience wrapper for (stateful) single containers
+    digest: f9487f5e06fa4ca341e6b3da3d9fee31c657d22ecb82bba82160d5c19660908a
+    home: https://www.flypenguin.de/
+    keywords:
+    - generic
+    - stateful
+    - swissarmyknife
+    - quickdeploy
+    - finally
+    maintainers:
+    - email: mr.axel.bock@gmail.com
+      name: flypenguin
+      url: https://flypenguin.de
+    name: stasico
+    urls:
+    - https://flypenguin.github.io/helm-stasico/stasico-3.0.0.tgz
+    version: 3.0.0
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2020-06-30T22:25:51.703451+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: ce5fab9e58047746ad1d9e4130a9a24ef3d57475fd5709644c953da9cd45ca7f
     home: https://www.flypenguin.de/
@@ -23,7 +43,7 @@ entries:
     version: 2.1.0
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2020-03-23T16:17:20.247619+01:00"
+    created: "2020-06-30T22:25:51.701732+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: ff9fd44744edff4771b0da9e1456d95cf332fc145932f3013d9431cd323a1eff
     home: https://www.flypenguin.de/
@@ -43,7 +63,7 @@ entries:
     version: 2.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2020-03-23T16:17:20.247023+01:00"
+    created: "2020-06-30T22:25:51.700972+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: 0ab49388513b3852e71ca2f60b3413df1d23370e50467ef115f9be345fa61021
     home: https://www.flypenguin.de/
@@ -63,7 +83,7 @@ entries:
     version: 2.0.0
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2020-03-23T16:17:20.24634+01:00"
+    created: "2020-06-30T22:25:51.700288+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: a9177f6d5b82c5df4dfb8898cf408480778b35d278479c28e7d38d5eb26009bd
     home: https://www.flypenguin.de/
@@ -81,4 +101,4 @@ entries:
     urls:
     - https://flypenguin.github.io/helm-stasico/stasico-1.0.1.tgz
     version: 1.0.1
-generated: "2020-03-23T16:17:20.24473+01:00"
+generated: "2020-06-30T22:25:51.699427+02:00"
