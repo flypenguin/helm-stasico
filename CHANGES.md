@@ -1,3 +1,7 @@
+# v3.0.0
+
+- [UPD] merge tombyLobo's patch - establish compatibility with 1.17
+
 # v2.1.0
 
 - [ADD] enable non-stateful deployments (use 'persistence.enabled: false')
