@@ -28,26 +28,36 @@ _helm_package:
 	helm package -d ./docs stasico
 .PHONY: _helm_package
 
+_commit:
+	@if ! git diff --quiet docs/ ; then \
+	  git add docs/ ; \
+	  git commit -m "add new version binary" ; \
+	fi ; \
+	echo "Execute 'make upload' for pushing."
+.PHONY: _commit
+
 _chart: _helm_package _helm_index
 .PHONY: _chart
 
-minor: _minor _chart
+minor: _minor _chart _commit
 .PHONY: minor
 
-major: _major _chart
+major: _major _chart _commit
 .PHONY: major
 
-patch: _patch _chart
+patch: _patch _chart _commit
 .PHONY: patch
 
-chart: _chart
+chart: _chart _commit
 .PHONY: chart
 
 index: _helm_index
 .PHONY: index
 
+commit: _commit
+.PHONY: commit
+
 upload:
-	git add docs/
-	git commit -m "add new version binary"
+	@git diff --quiet || (echo "Please commit before uploading, working dir is dirty." && false)
 	git push
 .PHONY: upload
