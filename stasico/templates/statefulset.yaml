@@ -16,12 +16,13 @@ spec:
   # without shared storage, no more than 1 replica, also we can't start the next
   # before killing the old due to the volume attachment. I think.
   # anyway, safer this way.
-  replicas: {{ .Values.persistence.enabled | ternary "1" .Values.deployment.replicas }}
 {{- if .Values.persistence.enabled }}
+  replicas: 1
   serviceName: {{ include "stasico.fullname" . }}
   updateStrategy:
     type: RollingUpdate
 {{-  else }}
+  replicas: {{ default "1" .Values.deployment.replicas }}
   strategy:
     type: RollingUpdate
 {{- end }}
