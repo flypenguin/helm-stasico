@@ -1,3 +1,7 @@
+# v4.0.0
+
+- [UPD] Change apiVersion of `Ingress` to `networking.k8s.io/v1beta1` (breaking)
+
 # v3.0.0
 
 - [UPD] merge tombyLobo's patch - establish compatibility with 1.17
