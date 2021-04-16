@@ -59,5 +59,5 @@ commit: _commit
 
 upload:
 	@git diff --quiet || (echo "Please commit before uploading, working dir is dirty." && false)
-	git --tags push
+	git push --tags
 .PHONY: upload
