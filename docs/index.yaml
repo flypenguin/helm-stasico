@@ -3,7 +3,7 @@ entries:
   stasico:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2021-04-16T13:43:23.652614+02:00"
+    created: "2021-04-16T13:46:32.098968+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: e5b21c262b7cea789ddf2d861848b6b18810dc5ac576fc9d6313138a902f6079
     home: https://www.flypenguin.de/
@@ -23,7 +23,7 @@ entries:
     version: 4.0.0
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2021-04-16T13:43:23.652219+02:00"
+    created: "2021-04-16T13:46:32.077591+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: 040fd01cfe0c88f78bd42589408d3d0f693d0f81bd18449faec39a768e5be7b2
     home: https://www.flypenguin.de/
@@ -43,7 +43,7 @@ entries:
     version: 3.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2021-04-16T13:43:23.65181+02:00"
+    created: "2021-04-16T13:46:32.077109+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: f9487f5e06fa4ca341e6b3da3d9fee31c657d22ecb82bba82160d5c19660908a
     home: https://www.flypenguin.de/
@@ -63,7 +63,7 @@ entries:
     version: 3.0.0
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2021-04-16T13:43:23.651312+02:00"
+    created: "2021-04-16T13:46:32.076676+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: ce5fab9e58047746ad1d9e4130a9a24ef3d57475fd5709644c953da9cd45ca7f
     home: https://www.flypenguin.de/
@@ -83,7 +83,7 @@ entries:
     version: 2.1.0
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2021-04-16T13:43:23.650914+02:00"
+    created: "2021-04-16T13:46:32.076214+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: ff9fd44744edff4771b0da9e1456d95cf332fc145932f3013d9431cd323a1eff
     home: https://www.flypenguin.de/
@@ -103,7 +103,7 @@ entries:
     version: 2.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2021-04-16T13:43:23.650525+02:00"
+    created: "2021-04-16T13:46:32.07558+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: 0ab49388513b3852e71ca2f60b3413df1d23370e50467ef115f9be345fa61021
     home: https://www.flypenguin.de/
@@ -123,7 +123,7 @@ entries:
     version: 2.0.0
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2021-04-16T13:43:23.650135+02:00"
+    created: "2021-04-16T13:46:32.074912+02:00"
     description: Convenience wrapper for (stateful) single containers
     digest: a9177f6d5b82c5df4dfb8898cf408480778b35d278479c28e7d38d5eb26009bd
     home: https://www.flypenguin.de/
@@ -141,4 +141,4 @@ entries:
     urls:
     - https://flypenguin.github.io/helm-stasico/stasico-1.0.1.tgz
     version: 1.0.1
-generated: "2021-04-16T13:43:23.649586+02:00"
+generated: "2021-04-16T13:46:32.073782+02:00"
