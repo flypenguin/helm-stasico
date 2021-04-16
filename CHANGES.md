@@ -16,4 +16,3 @@
 - [BREAKING] rename `persistence.volumeClaimTemplates.<name>.storageClass` to `... .storageClassName` to align with baseline k8s
 - [BREAKING] standard container name in `StatefulSet` is now the release name, not "`stasico`"
 - Helm aborts on most critical chart errors now
-

@@ -17,11 +17,13 @@ spec:
   # before killing the old due to the volume attachment. I think.
   # anyway, safer this way.
 {{- if .Values.persistence.enabled }}
+  # we are in "StatefulSet" mode
   replicas: 1
   serviceName: {{ include "stasico.fullname" . }}
   updateStrategy:
     type: RollingUpdate
 {{-  else }}
+  # we are in "Deployment" mode
   replicas: {{ default "1" .Values.deployment.replicas }}
   strategy:
     type: RollingUpdate
