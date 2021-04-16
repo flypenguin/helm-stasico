@@ -20,13 +20,10 @@ _patch: _lint
 	bumpversion patch
 .PHONY: _patch
 
-_helm_index:
+_package:
 	helm repo index --url ${REPO_URL} ./docs
-.PHONY: _helm_index
-
-_helm_package:
 	helm package -d ./docs stasico
-.PHONY: _helm_package
+.PHONY: _package
 
 _commit:
 	@if ! git diff --quiet docs/ ; then \
@@ -36,23 +33,21 @@ _commit:
 	echo "Execute 'make upload' for pushing."
 .PHONY: _commit
 
-_chart: _helm_package _helm_index
-.PHONY: _chart
 
-minor: _minor _chart _commit
+minor: _minor _package _commit
 .PHONY: minor
 
-major: _major _chart _commit
+major: _major _package _commit
 .PHONY: major
 
-patch: _patch _chart _commit
+patch: _patch _package _commit
 .PHONY: patch
 
 chart: _chart _commit
 .PHONY: chart
 
-index: _helm_index
-.PHONY: index
+package: _package
+.PHONY: package
 
 commit: _commit
 .PHONY: commit
